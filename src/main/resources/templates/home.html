@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Аренда квартир - просто!</title>
+</head>
+<body>
+
+<div th:if="${authentication != null and authentication.isAuthenticated()}">
+    <p>Вы авторизованы как <span th:text="${username}"></span></p>
+    <a th:href="@{/logout}">Выйти</a>
+</div>
+<div th:unless="${authentication != null and authentication.isAuthenticated()}">
+    <a th:href="@{/login}">Войти</a>
+    <a th:href="@{/register}">Зарегистрироваться</a>
+</div>
+
+<h1>Welcome to Our Website</h1>
+<p>We'll be soon...</p>
+<p th:text="${testik}"></p>
+
+</body>
+</html>
