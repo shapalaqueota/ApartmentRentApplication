@@ -1,18 +1,28 @@
 package com.aprent.ApartmentRent.models;
 
 import jakarta.persistence.*;
-
+@Table(name = "listings")
 @Entity
 public class Listings {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
 
-    private String title, description, location;
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "location")
+    private String location;
+
+    @Column(name = "price")
     private double price;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     private Users users;
 
     public Long getId() {

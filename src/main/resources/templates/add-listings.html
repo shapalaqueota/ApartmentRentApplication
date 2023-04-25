@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление объявления</title>
+</head>
+<body>
+
+<form method="post" th:action="@{/listings/add-listings}">
+  <label for="title">Заголовок:</label>
+  <input type="text" id="title" name="title" required><br><br>
+
+  <label for="description">Описание:</label>
+  <textarea id="description" name="description" required></textarea><br><br>
+
+  <label for="location">Местоположение:</label>
+  <input type="text" id="location" name="location" required><br><br>
+
+  <label for="price">Цена:</label>
+  <input type="number" id="price" name="price" step="0.01" min="0" required><br><br>
+
+  <input type="submit" value="Добавить объявление">
+</form>
+
+</body>
+</html>

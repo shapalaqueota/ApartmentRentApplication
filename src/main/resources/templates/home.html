@@ -7,17 +7,26 @@
 <body>
 
 <div th:if="${authentication != null and authentication.isAuthenticated()}">
+
     <p>Вы авторизованы как <span th:text="${username}"></span></p>
+    <a th:href="@{/listings/add-listings}">Добавить объявление</a>
     <a th:href="@{/logout}">Выйти</a>
+
 </div>
 <div th:unless="${authentication != null and authentication.isAuthenticated()}">
     <a th:href="@{/login}">Войти</a>
     <a th:href="@{/register}">Зарегистрироваться</a>
 </div>
 
-<h1>Welcome to Our Website</h1>
-<p>We'll be soon...</p>
-<p th:text="${testik}"></p>
+<h1>RENTIFY</h1>
+
+<div th:each="listing : ${listings}">
+    <h2  th:text="${listing.title}"></h2>
+    <p th:text="${listing.description}"></p>
+    <p th:text="${listing.location}"></p>
+    <p th:text="${listing.price}"></p>
+    <p th:if="${listing.user != null}" th:text="${listing.user.username}"></p>
+</div>
 
 </body>
 </html>
