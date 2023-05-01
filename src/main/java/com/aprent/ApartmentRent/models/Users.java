@@ -5,27 +5,21 @@ import jakarta.persistence.*;
 
 import java.util.Set;
 
-@Table(name = "users")
 @Entity
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
     private Long user_id;
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "username")
     private String username;
 
-    @Column(name = "password")
     private String password;
 
     @ElementCollection(targetClass = Role.class)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "id"))
     @Enumerated(EnumType.STRING)
-    @Column(name = "role")
     private Set<Role> roles;
 
     public Set<Role> getRoles() {

@@ -12,23 +12,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository2 userRepository;
+    private UserService userService;
 
     @Transactional
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = userRepository.findByUsername(username);
-
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<Users> userOptional = Optional.ofNullable(userService.findByEmail(email));
+        if (userOptional.isEmpty()) {
+            throw new UsernameNotFoundException("User not found with email: " + email);
         }
-
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+        Users user = userOptional.get();
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
                 getAuthorities(user));
     }
 
@@ -38,3 +38,5 @@ public class MyUserDetailsService implements UserDetailsService {
         return authorities;
     }
 }
+
+

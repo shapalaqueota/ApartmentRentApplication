@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.core.Authentication;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MainController {
 
     private final UserRepository2 userRepository;
+
     public MainController(UserRepository2 userRepository) {
         this.userRepository = userRepository;
     }
@@ -34,12 +36,11 @@ public class MainController {
     public String home(Model model, Authentication authentication) {
         List<Listings> listings = listingsService.findAll();
         if (authentication != null && authentication.isAuthenticated()) {
-            // Пользователь аутентифицирован
             String username = authentication.getName();
             model.addAttribute("authentication", authentication);
             model.addAttribute("username", username);
         } else {
-            // Пользователь не аутентифицирован
+
         }
         model.addAttribute("listings", listings);
         return "home";
@@ -63,7 +64,7 @@ public class MainController {
         users.setUsername(username);
         users.setPassword(passwordEncoder.encode(password));
         users.setEmail(email);
-        userRepository.save(users); // сохраняем пользователя в базе данных
+        userRepository.save(users);
         model.addAttribute("message", "Registration successful!");
         return "login"; // переходим на страницу входа
     }
@@ -74,23 +75,18 @@ public class MainController {
 
     @GetMapping("/login")
     public String showLoginPage(Model model) {
-        // Выводим форму для входа на страницу
         model.addAttribute("user", new Users());
         return "login";
     }
 
     @PostMapping("/login")
     public String processLoginForm(@ModelAttribute("user") Users users, Model model) {
-        // Вызываем метод findByLoginAndPassword() из сервиса
-        Users foundUsers = userService.findByLoginAndPassword(users.getName(), users.getPassword());
-
-        if (foundUsers == null) {
-            // Если пользователь не найден, показываем сообщение об ошибке
-            model.addAttribute("error", "Invalid login or password");
-            return "login";
-        } else {
-            // Если пользователь найден, перенаправляем на главную страницу
+        Optional<Users> foundUsersOptional = userService.findByEmailAndPassword(users.getEmail(), users.getPassword());
+        if (foundUsersOptional.isPresent()) {
             return "redirect:/";
+        } else {
+            model.addAttribute("error", "Invalid email or password");
+            return "login";
         }
     }
 
@@ -112,15 +108,21 @@ public class MainController {
         listing.setLocation(location);
         listing.setPrice(price);
 
-        // Получаем текущего пользователя из базы данных
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Users user = userRepository.findByUsername(authentication.getName());
         listing.setUser(user);
 
-        // Сохраняем объявление в базу данных
         listingsService.save(listing);
 
         return "redirect:/";
     }
+
+    @GetMapping("/house-details")
+    public String showHouseDetails(@RequestParam("id") Long id, Model model) {
+        Optional<Listings> listing = listingsService.findById(id);
+        model.addAttribute("listing", listing);
+        return "/house-details";
+    }
+
 
 }

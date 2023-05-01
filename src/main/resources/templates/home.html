@@ -18,7 +18,8 @@
     <a th:href="@{/register}">Зарегистрироваться</a>
 </div>
 
-<h1>RENTIFY</h1>
+<h1>Rentify</h1>
+
 
 <div th:each="listing : ${listings}">
     <h2  th:text="${listing.title}"></h2>
@@ -26,6 +27,7 @@
     <p th:text="${listing.location}"></p>
     <p th:text="${listing.price}"></p>
     <p th:if="${listing.user != null}" th:text="${listing.user.username}"></p>
+    <a th:href="@{/house-details(id=${listing.id})}">Подробнее</a>
 </div>
 
 </body>
