@@ -29,4 +29,6 @@ public class ListingsService {
     public void delete(Listings listings) {
         listingsRepository.delete(listings);
     }
+
+
 }

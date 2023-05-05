@@ -1,6 +1,10 @@
 package com.aprent.ApartmentRent.models;
 
 import jakarta.persistence.*;
+
+import java.util.Arrays;
+import java.util.List;
+
 @Table(name = "listings")
 @Entity
 public class Listings {
@@ -18,12 +22,24 @@ public class Listings {
     @Column(name = "location")
     private String location;
 
+    public static final List<String> LOCATION_LIST = Arrays.asList("Almaty", "Astana", "Aktobe",
+            "Atyrau", "Aktau", "Balkhash", "Karaganda", "Kokshetau", "Kostanay",
+            "Kyzylorda", "Pavlodar", "Semey", "Shymkent", "Taraz", "Turkestan");
+
+
+
+
     @Column(name = "price")
     private double price;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private Users users;
+
+
+    public List<String> getPossibleLocations() {
+        return LOCATION_LIST;
+    }
 
     public Long getId() {
         return id;

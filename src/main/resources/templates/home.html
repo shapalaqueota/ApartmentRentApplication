@@ -13,6 +13,7 @@
     <a th:href="@{/logout}">Выйти</a>
 
 </div>
+
 <div th:unless="${authentication != null and authentication.isAuthenticated()}">
     <a th:href="@{/login}">Войти</a>
     <a th:href="@{/register}">Зарегистрироваться</a>

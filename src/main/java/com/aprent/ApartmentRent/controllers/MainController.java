@@ -117,12 +117,14 @@ public class MainController {
         return "redirect:/";
     }
 
+
     @GetMapping("/house-details")
     public String showHouseDetails(@RequestParam("id") Long id, Model model) {
         Optional<Listings> listing = listingsService.findById(id);
         model.addAttribute("listing", listing);
         return "/house-details";
     }
+
 
 
 }

@@ -7,19 +7,24 @@
 <body>
 
 <form method="post" th:action="@{/listings/add-listings}">
-  <label for="title">Заголовок:</label>
+  <label for="title">Title:</label>
   <input type="text" id="title" name="title" required><br><br>
 
-  <label for="description">Описание:</label>
+  <label for="description">Description:</label>
   <textarea id="description" name="description" required></textarea><br><br>
 
-  <label for="location">Местоположение:</label>
-  <input type="text" id="location" name="location" required><br><br>
+  <label for="location">Location:</label>
+  <select id="location" name="location" required>
+    <option value="">-- Select location --</option>
+    <th:block th:each="location : ${listing.possibleLocations}">
+      <option th:value="${location}" th:text="${location}"></option>
+    </th:block>
+  </select>
 
-  <label for="price">Цена:</label>
+  <label for="price">Price:</label>
   <input type="number" id="price" name="price" step="0.01" min="0" required><br><br>
 
-  <input type="submit" value="Добавить объявление">
+  <input type="submit" value="Submit Ad">
 </form>
 
 </body>
