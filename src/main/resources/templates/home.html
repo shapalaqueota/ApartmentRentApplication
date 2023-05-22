@@ -8,8 +8,11 @@
 
 <div th:if="${authentication != null and authentication.isAuthenticated()}">
 
+
     <p>Вы авторизованы как <span th:text="${username}"></span></p>
     <a th:href="@{/listings/add-listings}">Добавить объявление</a>
+    <p> <a href="/my-bookings"> My Bookings </a></p>
+
     <a th:href="@{/logout}">Выйти</a>
 
 </div>

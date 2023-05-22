@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Подтверждение бронирования</title>
+  <script>
+    function validateForm() {
+      var checkbox = document.getElementById("confirmationCheck");
+      if (!checkbox.checked) {
+        alert("Пожалуйста, подтвердите бронирование!");
+        return false;
+      }
+    }
+  </script>
+</head>
+<body>
+<h1>Подтверждение бронирования</h1>
+<form th:action="@{/confirmation}" method="post" onsubmit="return validateForm()">
+  <input type="checkbox" id="confirmationCheck" name="confirmationCheck">
+  <label for="confirmationCheck">Я подтверждаю бронирование!</label>
+  <br>
+  <button type="submit">Подтвердить</button>
+</form>
+</body>
+</html>

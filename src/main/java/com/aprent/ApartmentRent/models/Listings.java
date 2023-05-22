@@ -10,16 +10,12 @@ import java.util.List;
 public class Listings {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "title")
     private String title;
 
-    @Column(name = "description")
     private String description;
 
-    @Column(name = "location")
     private String location;
 
     public static final List<String> LOCATION_LIST = Arrays.asList("Almaty", "Astana", "Aktobe",
@@ -27,9 +23,6 @@ public class Listings {
             "Kyzylorda", "Pavlodar", "Semey", "Shymkent", "Taraz", "Turkestan");
 
 
-
-
-    @Column(name = "price")
     private double price;
 
     @ManyToOne(cascade = CascadeType.ALL)

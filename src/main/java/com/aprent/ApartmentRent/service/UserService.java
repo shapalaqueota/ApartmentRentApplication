@@ -13,12 +13,12 @@ public class UserService {
     @Autowired
     private UserRepository2 userRepository;
 
-    public Users findByLoginAndPassword(String username, String password) {
-        return userRepository.findByUsernameAndPassword(username, password);
-    }
-
     public Optional<Users> findByEmailAndPassword(String email, String password) {
         return userRepository.findByEmailAndPassword(email, password);
+    }
+
+    public Users findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public Users findByEmail(String email) {

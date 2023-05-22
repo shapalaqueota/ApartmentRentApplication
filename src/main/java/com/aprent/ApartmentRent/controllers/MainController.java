@@ -1,22 +1,22 @@
 package com.aprent.ApartmentRent.controllers;
 
 
+import com.aprent.ApartmentRent.models.Booking;
 import com.aprent.ApartmentRent.models.Listings;
 import com.aprent.ApartmentRent.models.Users;
+import com.aprent.ApartmentRent.repos.BookingRepository;
 import com.aprent.ApartmentRent.repos.UserRepository2;
 import com.aprent.ApartmentRent.service.ListingsService;
+import com.aprent.ApartmentRent.service.MyUserDetailsService;
 import com.aprent.ApartmentRent.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +25,9 @@ public class MainController {
 
     private final UserRepository2 userRepository;
 
-    public MainController(UserRepository2 userRepository) {
+    public MainController(UserRepository2 userRepository, BookingRepository bookingRepository) {
         this.userRepository = userRepository;
+        this.bookingRepository = bookingRepository;
     }
 
 
@@ -53,7 +54,6 @@ public class MainController {
         return "register";
     }
 
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -68,7 +68,6 @@ public class MainController {
         model.addAttribute("message", "Registration successful!");
         return "login"; // переходим на страницу входа
     }
-
 
     @Autowired
     private UserService userService;
@@ -90,7 +89,6 @@ public class MainController {
         }
     }
 
-
     @GetMapping("/listings/add-listings")
     public String showAddListingsPage(Model model) {
         model.addAttribute("listing", new Listings());
@@ -101,22 +99,22 @@ public class MainController {
     public String addListing(@RequestParam("title") String title,
                              @RequestParam("description") String description,
                              @RequestParam("location") String location,
-                             @RequestParam("price") double price) {
+                             @RequestParam("price") double price,
+                             Authentication authentication){
         Listings listing = new Listings();
         listing.setTitle(title);
         listing.setDescription(description);
         listing.setLocation(location);
         listing.setPrice(price);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Users user = userRepository.findByUsername(authentication.getName());
+
+        Users user = userRepository.findByEmail(authentication.getName());
         listing.setUser(user);
 
         listingsService.save(listing);
 
         return "redirect:/";
     }
-
 
     @GetMapping("/house-details")
     public String showHouseDetails(@RequestParam("id") Long id, Model model) {
@@ -126,5 +124,64 @@ public class MainController {
     }
 
 
+    private final BookingRepository bookingRepository;
+
+    @PostMapping("/listings/{listingId}/book")
+    public String bookListing(@PathVariable("listingId") Long listingId,
+                              @RequestParam("startDate") LocalDate startDate,
+                              @RequestParam("endDate") LocalDate endDate,
+                              Authentication authentication,Model model) {
+
+        // объект юзер со всей инфой
+        Users user = userRepository.findByEmail(authentication.getName());
+        // айдишка хаты которой мы бронируем
+        Optional<Listings> listingOptional = listingsService.findById(listingId);
+        if (listingOptional.isPresent()) {
+            Listings listing = listingOptional.get();
+
+            // процесс букинга, исопльзуем сеттеры
+            Booking booking = new Booking();
+            booking.setUser(user);
+            booking.setListing(listing);
+            booking.setStartDate(startDate);
+            booking.setEndDate(endDate);
+
+            // сохраняем в бдшке
+            bookingRepository.save(booking);
+
+            model.addAttribute("bookingConfirmed", true);
+
+            return "redirect:/confirmation"; // перенаправления на страницу с подтверждением брони
+        }
+
+        return "redirect:/"; // перенаправления на главную при ошибке
+    }
+
+
+    @GetMapping("/confirmation")
+    public String showConfirmationPage(Model model) {
+        // отображение страницы с подтверждением бронирования
+        model.addAttribute("confirmationCheck", false); // Флаг, указывающий, что бронирование еще не подтверждено
+        return "confirmation";
+    }
+
+    @PostMapping("/confirmation")
+    public String confirmBooking(@RequestParam("confirmationCheck") boolean confirmationCheck) {
+        if (confirmationCheck) {
+            // бронирование подтверждено
+            return "redirect:/my-bookings"; // перенаправление на страницу с бронированиями
+        } else {
+            // бронирование отменено или произошла ошибка. Перенаправление на главную страницу.
+            return "redirect:/";
+        }
+    }
+
+    @GetMapping("/my-bookings")
+    public String showMyBookings(Model model,Authentication authentication) {
+        Users user = userRepository.findByEmail(authentication.getName());
+        List<Booking> bookings = bookingRepository.findByUser(user);
+        model.addAttribute("bookings", bookings);
+        return "my-bookings";
+    }
 
 }
