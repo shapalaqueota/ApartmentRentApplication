@@ -3,6 +3,7 @@ package com.aprent.ApartmentRent.models;
 import com.aprent.ApartmentRent.models.enums.Role;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,10 +18,22 @@ public class Users {
 
     private String password;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
+    private List<Listings> listings;
+
     @ElementCollection(targetClass = Role.class)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "id"))
+    @CollectionTable
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+
+    public List<Listings> getListings() {
+        return listings;
+    }
+
+    public void setListings(List<Listings> listings) {
+        this.listings = listings;
+    }
 
     public Set<Role> getRoles() {
         return roles;

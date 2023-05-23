@@ -1,6 +1,7 @@
 package com.aprent.ApartmentRent.service;
 
 import com.aprent.ApartmentRent.models.Listings;
+import com.aprent.ApartmentRent.models.Users;
 import com.aprent.ApartmentRent.repos.ListingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,13 @@ public class ListingsService {
         return listingsRepository.findAll();
     }
 
+    public List<Listings> findByUsers(Users users) {
+        return listingsRepository.findByUsers(users);
+    }
+
+    public void deleteById(Long id) {
+        listingsRepository.deleteById(id);
+    }
     public Optional<Listings> findById(Long id) {
         return listingsRepository.findById(id);
     }
@@ -26,9 +34,7 @@ public class ListingsService {
         listingsRepository.save(listings);
     }
 
-    public void delete(Listings listings) {
-        listingsRepository.delete(listings);
-    }
+
 
 
 }

@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.util.Arrays;
 import java.util.List;
 
-@Table(name = "listings")
 @Entity
 public class Listings {
     @Id
@@ -18,15 +17,17 @@ public class Listings {
 
     private String location;
 
+    private boolean hidden;
+
     public static final List<String> LOCATION_LIST = Arrays.asList("Almaty", "Astana", "Aktobe",
             "Atyrau", "Aktau", "Balkhash", "Karaganda", "Kokshetau", "Kostanay",
             "Kyzylorda", "Pavlodar", "Semey", "Shymkent", "Taraz", "Turkestan");
 
 
-    private double price;
+    private int price;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    @JoinColumn
     private Users users;
 
 
@@ -70,7 +71,7 @@ public class Listings {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -80,5 +81,13 @@ public class Listings {
 
     public void setUser(Users users) {
         this.users = users;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 }

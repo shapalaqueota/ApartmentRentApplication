@@ -12,13 +12,13 @@ public class Booking {
     private Long id;
 
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    @JoinColumn
     private Users user;
 
 
-    @ManyToOne
-    @JoinColumn(name = "listing_id")
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn
     private Listings listing;
 
     private LocalDate startDate;

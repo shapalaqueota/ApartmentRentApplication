@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>My Ads</title>
+</head>
+<body>
+<h1>My advertisements</h1>
+
+<a href="/"> Back home </a>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Location</th>
+    <th>Price</th>
+  </tr>
+  <tr th:each="ad : ${ads}">
+    <td th:text="${ad.title}"></td>
+    <td th:text="${ad.description}"></td>
+    <td th:text="${ad.location}" ></td>
+    <td th:text="${ad.price}" ></td>
+    <td>
+      <!-- кнопка для удаления объявления -->
+      <form th:action="@{/delete-ad}" method="post">
+        <input type="hidden" name="adId" th:value="${ad.id}">
+        <button type="submit">Delete</button>
+      </form>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

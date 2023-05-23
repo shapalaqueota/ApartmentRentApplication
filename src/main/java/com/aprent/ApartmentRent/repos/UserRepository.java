@@ -1,8 +1,10 @@
 package com.aprent.ApartmentRent.repos;
 
+import com.aprent.ApartmentRent.models.Listings;
 import com.aprent.ApartmentRent.models.Users;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<Users, Long> {
@@ -11,4 +13,7 @@ public interface UserRepository extends CrudRepository<Users, Long> {
     Users findByUsername(String username);
 
     Users findByEmail(String email);
+
+
+
 }

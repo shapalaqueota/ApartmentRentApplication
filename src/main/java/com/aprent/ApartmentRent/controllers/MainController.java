@@ -7,7 +7,6 @@ import com.aprent.ApartmentRent.models.Users;
 import com.aprent.ApartmentRent.repos.BookingRepository;
 import com.aprent.ApartmentRent.repos.UserRepository2;
 import com.aprent.ApartmentRent.service.ListingsService;
-import com.aprent.ApartmentRent.service.MyUserDetailsService;
 import com.aprent.ApartmentRent.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,8 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class MainController {
@@ -35,15 +36,20 @@ public class MainController {
     private ListingsService listingsService;
     @GetMapping("/")
     public String home(Model model, Authentication authentication) {
-        List<Listings> listings = listingsService.findAll();
+        List<Listings> listings = listingsService.findAll()
+                .stream()
+                .filter(listings1 -> !listings1.isHidden())
+                .toList();
         if (authentication != null && authentication.isAuthenticated()) {
             String username = authentication.getName();
             model.addAttribute("authentication", authentication);
             model.addAttribute("username", username);
         } else {
 
-        }
+            }
+
         model.addAttribute("listings", listings);
+
         return "home";
     }
 
@@ -99,7 +105,7 @@ public class MainController {
     public String addListing(@RequestParam("title") String title,
                              @RequestParam("description") String description,
                              @RequestParam("location") String location,
-                             @RequestParam("price") double price,
+                             @RequestParam("price") int price,
                              Authentication authentication){
         Listings listing = new Listings();
         listing.setTitle(title);
@@ -183,5 +189,28 @@ public class MainController {
         model.addAttribute("bookings", bookings);
         return "my-bookings";
     }
+
+    @GetMapping("/my-ads")
+    public String showMyAds(Model model, Authentication authentication) {
+        Users user = userRepository.findByEmail(authentication.getName());
+        List<Listings> ads = user.getListings()
+                .stream()
+                .filter(ad -> !ad.isHidden()) // скрывается объявление которое помечено как isHidden
+                .collect(Collectors.toList());
+        model.addAttribute("ads", ads);
+        return "my-ads";
+    }
+
+    @PostMapping("/delete-ad")
+    public String deleteAd(@RequestParam("adId") Long adId) {
+        Optional<Listings> adOptional = listingsService.findById(adId);
+        if (adOptional.isPresent()) {
+            Listings ad = adOptional.get();
+            ad.setHidden(true); // типо удаление объявления, но на самом деле скрываем его просто
+            listingsService.save(ad);
+        }
+        return "redirect:/my-ads";
+    }
+
 
 }
