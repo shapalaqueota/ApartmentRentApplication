@@ -1,33 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Ads</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Bootstrap Icons CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');
+
+    body {
+      font-family: 'Dongle', sans-serif;
+    }
+    </style>
 </head>
+
 <body>
-<h1>My advertisements</h1>
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <div>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">ADS</li>
+  </ol>
+        </div>
+    </div>
+</nav>
 
-<a href="/"> Back home </a>
+<div class="container">
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Description</th>
-    <th>Location</th>
-    <th>Price</th>
-  </tr>
-  <tr th:each="ad : ${ads}">
-    <td th:text="${ad.title}"></td>
-    <td th:text="${ad.description}"></td>
-    <td th:text="${ad.location}" ></td>
-    <td th:text="${ad.price}" ></td>
-    <td>
-      <!-- кнопка для удаления объявления -->
-      <form th:action="@{/delete-ad}" method="post">
-        <input type="hidden" name="adId" th:value="${ad.id}">
-        <button type="submit">Delete</button>
-      </form>
-    </td>
-  </tr>
-</table>
+    <div>
+        <h1>My advertisements</h1>
+    </div>
+
+
+  <div class="row">
+    <div th:each="ad : ${ads}" class="col-md-4 p-4">
+      <div class="card">
+        <div class="card-body">
+            <h2 th:text="${ad.title}"></h2>
+            <p th:text="${ad.description}"></p>
+            <p th:text="${ad.location}"></p>
+            <p th:text="${ad.price}"></p>
+            <form th:action="@{/delete-ad}" method="post">
+              <input type="hidden" name="adId" th:value="${ad.id}">
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 </body>
 </html>

@@ -65,6 +65,18 @@
             <artifactId>assertj-core</artifactId>
         </dependency>
 
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>LATEST</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>LATEST</version>
+		</dependency>
+
 
     </dependencies>
 

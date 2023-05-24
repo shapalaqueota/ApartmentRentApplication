@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <title>Подтверждение бронирования</title>
+
   <script>
     function validateForm() {
       var checkbox = document.getElementById("confirmationCheck");
@@ -11,14 +12,46 @@
       }
     }
   </script>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Bootstrap Icons CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');
+
+    body {
+      font-family: 'Dongle', sans-serif;
+    }
+    </style>
 </head>
+
 <body>
-<h1>Подтверждение бронирования</h1>
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/house-details">House Details</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Confirm</li>
+  </ol>
+
+
+</nav>
+
+<div class="container">
+
+<h1>Booking confirmation</h1>
 <form th:action="@{/confirmation}" method="post" onsubmit="return validateForm()">
-  <input type="checkbox" id="confirmationCheck" name="confirmationCheck">
-  <label for="confirmationCheck">Я подтверждаю бронирование!</label>
-  <br>
-  <button type="submit">Подтвердить</button>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" role="switch" id="confirmationCheck" name="confirmationCheck">
+    <label class="form-check-label" for="confirmationCheck">Default switch checkbox input</label>
+  </div>
+
+  <label for="confirmationCheck">I confirm the booking</label>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+</div>
 </body>
 </html>
