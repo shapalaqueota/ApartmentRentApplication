@@ -1,27 +1,19 @@
 # ApartmentRentApp
-Проект представляет собой веб-приложение для аренды квартир, организованное с использованием Java и Spring Framework. Технологии представленные в коде:
-Java и Spring Framework:
+The project is a web application for apartment rentals, organized using Java and the Spring Framework. Technologies presented in the code: Java and Spring Framework:
 
-Проект разработан на языке программирования Java с использованием Spring Framework для создания веб-приложения.
-Видно использование аннотаций @Controller, @GetMapping, @PostMapping, что характерно для Spring MVC.
-Spring Security:
+The project is developed in the Java programming language using the Spring Framework to create a web application. You can see the use of annotations @Controller, @GetMapping, @PostMapping, which is typical for Spring MVC. Spring Security:
 
-Проект вероятно использует Spring Security для аутентификации и авторизации пользователей.
-Spring Data JPA:
+The project probably uses Spring Security to authenticate and authorize users. Spring Data JPA:
 
-В коде присутствуют репозитории (UserRepository2, BookingRepository), что указывает на использование Spring Data JPA для взаимодействия с базой данных.
-HTML/CSS/JavaScript:
+The code contains repositories (UserRepository2, BookingRepository), which indicates the use of Spring Data JPA to interact with the database. HTML/CSS/JavaScript:
 
-Для фронтенда вероятно использовались HTML, CSS и JavaScript для создания пользовательского интерфейса и визуального представления страниц.
-Thymeleaf:
+For the frontend, HTML, CSS and JavaScript were probably used to create the user interface and visual representation of the pages. Thymeleaf:
 
-Вероятно, использовался Thymeleaf, так как контроллер возвращает имена шаблонов (например, "home", "login", "register"), что характерно для Thymeleaf, который позволяет создавать динамические HTML-страницы.
-База данных:
+Thymeleaf was probably used, since the controller returns template names (for example, "home", "login", "register"), which is typical for Thymeleaf, which allows you to create dynamic HTML pages. The database:
 
-Нет явной информации о конкретной базе данных, но предположительно используется какая-то реляционная база данных (например, MySQL, PostgreSQL), к которой приложение обращается через Spring Data JPA.
-Spring Boot:
+There is no explicit information about a specific database, but presumably some kind of relational database is used (for example, MySQL, PostgreSQL), which the application accesses via Spring Data JPA. Spring Boot:
 
-Судя по структуре проекта, вероятно, используется Spring Boot для автоматической настройки большинства компонентов и создания самодостаточного приложения.
+Judging by the structure of the project, Spring Boot is probably used to automatically configure most components and create a self-sufficient application. ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
