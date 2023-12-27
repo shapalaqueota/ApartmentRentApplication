@@ -1,0 +1,15 @@
+{
+  "name": "apartment",
+  "version": "1.0.0",
+  "description": "The project is a web application for apartment rentals, organized using Java and the Spring Framework. Technologies presented in the code:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}
