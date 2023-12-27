@@ -28,7 +28,14 @@ import java.util.stream.Collectors;
 @Controller
 public class MainController {
 
+
+    @GetMapping("/")
+    public String index(){
+        return "index";
+    }
+
     private final UserRepository2 userRepository;
+
 
 
     public MainController(UserRepository2 userRepository, BookingRepository bookingRepository) {
@@ -39,7 +46,7 @@ public class MainController {
 
     @Autowired
     private ListingsService listingsService;
-    @GetMapping("/")
+    @GetMapping("/home")
     public String home(Model model, Authentication authentication) {
         List<Listings> listings = listingsService.findAll()
                 .stream()
@@ -107,15 +114,6 @@ public class MainController {
     }
 
 
-    public String generateFileKey(Long listingId, String originalFilename) {
-        String fileExtension = "";
-        int i = originalFilename.lastIndexOf('.');
-        if (i > 0) {
-            fileExtension = originalFilename.substring(i);
-        }
-        String filenameWithoutExtension = originalFilename.substring(0, i);
-        return "listings/" + listingId + "/" + filenameWithoutExtension + "-" + System.currentTimeMillis() + fileExtension;
-    }
 
 
     @Autowired

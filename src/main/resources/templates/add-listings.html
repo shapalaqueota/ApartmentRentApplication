@@ -1,93 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Добавление объявления</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <!-- Bootstrap Icons CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <title>Добавление объявления</title>-->
+<!--  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+<!--  &lt;!&ndash; Bootstrap Icons CSS &ndash;&gt;-->
+<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">-->
 
-  <style>
-      @import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');
+<!--  <style>-->
+<!--      @import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');-->
 
-      body {
-        font-family: 'Dongle', sans-serif;
-      }
-   </style>
+<!--      body {-->
+<!--        font-family: 'Dongle', sans-serif;-->
+<!--      }-->
+<!--   </style>-->
 
-</head>
-<body>
-<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-  <div class="container-fluid">
-    <div>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Adding</li>
-      </ol>
+<!--</head>-->
+<!--<body>-->
+<!--<nav style="&#45;&#45;bs-breadcrumb-divider: '>';" aria-label="breadcrumb">-->
+<!--  <div class="container-fluid">-->
+<!--    <div>-->
+<!--      <ol class="breadcrumb">-->
+<!--        <li class="breadcrumb-item"><a href="/">Home</a></li>-->
+<!--        <li class="breadcrumb-item active" aria-current="page">Adding</li>-->
+<!--      </ol>-->
 
 
-    </div>
-  </div>
-</nav>
-<div class="container">
+<!--    </div>-->
+<!--  </div>-->
+<!--</nav>-->
+<!--<div class="container">-->
 
-  <form method="post" th:action="@{/listings/add-listings}"  enctype="multipart/form-data">
+<!--  <form method="post" th:action="@{/listings/add-listings}"  enctype="multipart/form-data">-->
 
-    <div class="form-group">
-      <input type="file" id="file" name="files" multiple>
-    </div>
+<!--    <div class="form-group">-->
+<!--      <input type="file" id="file" name="files" multiple>-->
+<!--    </div>-->
 
-    <div class="mb-3">
-      <label for="title" class="form-label">Name</label>
-      <input type="text" class="form-control" id="title" name= "title" required>
-    </div>
+<!--    <div class="mb-3">-->
+<!--      <label for="title" class="form-label">Name</label>-->
+<!--      <input type="text" class="form-control" id="title" name= "title" required>-->
+<!--    </div>-->
 
-    <div class="mb-3">
-      <label for="description" class="form-label">Description:</label>
-      <textarea class="form-control" id="description" name="description" required rows="3"></textarea>
-    </div>
+<!--    <div class="mb-3">-->
+<!--      <label for="description" class="form-label">Description:</label>-->
+<!--      <textarea class="form-control" id="description" name="description" required rows="3"></textarea>-->
+<!--    </div>-->
 
-    <div class="mb-3">
-      <label for="location" class="form-label">State</label>
-      <select id="location" name="location" class="form-select" required>
-        <option selected>Choose...</option>
-        <option>Almaty</option>
-        <option>NurSultan</option>
-        <option>Taraz</option>
-        <option>Kostanay</option>
-        <option>Baykonir</option>
-      </select>
-    </div>
+<!--    <div class="mb-3">-->
+<!--      <label for="location" class="form-label">State</label>-->
+<!--      <select id="location" name="location" class="form-select" required>-->
+<!--        <option selected>Choose...</option>-->
+<!--        <option>Almaty</option>-->
+<!--        <option>NurSultan</option>-->
+<!--        <option>Taraz</option>-->
+<!--        <option>Kostanay</option>-->
+<!--        <option>Baykonir</option>-->
+<!--      </select>-->
+<!--    </div>-->
 
-    <div class="mb-3">
-      <label for="price" class="form-label">Price</label>
-      <input type="number" class="form-control" id="price" name="price" step="0.01" min="0" required><br><br>
-    </div>
+<!--    <div class="mb-3">-->
+<!--      <label for="price" class="form-label">Price</label>-->
+<!--      <input type="number" class="form-control" id="price" name="price" step="0.01" min="0" required><br><br>-->
+<!--    </div>-->
 
-    <input type="submit" value="Add house">
-  </form>
-</div>
+<!--    <input type="submit" value="Add house">-->
+<!--  </form>-->
+<!--</div>-->
 
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-    function previewImage(event) {
-      var input = event.target;
-      var preview = document.getElementById('preview');
+<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+<!--<script>-->
+<!--    function previewImage(event) {-->
+<!--      var input = event.target;-->
+<!--      var preview = document.getElementById('preview');-->
 
-      if (input.files && input.files[0]) {
-        var reader = new FileReader();
+<!--      if (input.files && input.files[0]) {-->
+<!--        var reader = new FileReader();-->
 
-        reader.onload = function (e) {
-          preview.setAttribute('src', e.target.result);
-          preview.style.display = 'block';
-        };
+<!--        reader.onload = function (e) {-->
+<!--          preview.setAttribute('src', e.target.result);-->
+<!--          preview.style.display = 'block';-->
+<!--        };-->
 
-        reader.readAsDataURL(input.files[0]);
-      } else {
-        preview.setAttribute('src', '#');
-        preview.style.display = 'none';
-      }
-    }
-  </script>
-</body>
-</html>
+<!--        reader.readAsDataURL(input.files[0]);-->
+<!--      } else {-->
+<!--        preview.setAttribute('src', '#');-->
+<!--        preview.style.display = 'none';-->
+<!--      }-->
+<!--    }-->
+<!--  </script>-->
+<!--</body>-->
+<!--</html>-->
