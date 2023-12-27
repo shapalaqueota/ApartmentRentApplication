@@ -28,20 +28,26 @@
     </div>
 </nav>
 
+<body>
+
 <div class="container">
 
 
     <h1>House Details</h1>
 
     <!-- вывод инфы о доме -->
+
+    <div th:if="${listing.images != null}" th:each="image : ${listing.images}">
+        <img th:src="${image.imageUrl}" alt="Listing Image" />
+    </div>
     <div class="text-right ml-auto">
-    <h2 th:text="${listing.get().title}"></h2>
-    <p th:text="${listing.get().description}"></p>
-    <p>Location: <span th:text="${listing.get().location}"></span></p>
-    <p>Price: <span th:text="${listing.get().price}"></span></p>
+        <h2 th:text="${listing.title}"></h2>
+        <p th:text="${listing.description}"></p>
+        <p th:text="${listing.location}"></p>
+        <p th:text="${listing.price}"></p>
 
     <!-- букинг/работа с бэком -->
-    <form th:action="@{/listings/{listingId}/book(listingId=${listing.get().id})}" method="post">
+    <form th:action="@{/listings/{listingId}/book(listingId=${listing.id})}" method="post">
         <label for="startDate">Start Date:</label>
         <input type="date" id="startDate" name="startDate" required>
         <br>

@@ -2,11 +2,13 @@ package com.aprent.ApartmentRent.controllers;
 
 
 import com.aprent.ApartmentRent.models.Booking;
+import com.aprent.ApartmentRent.models.ListingImage;
 import com.aprent.ApartmentRent.models.Listings;
 import com.aprent.ApartmentRent.models.Users;
 import com.aprent.ApartmentRent.repos.BookingRepository;
 import com.aprent.ApartmentRent.repos.UserRepository2;
 import com.aprent.ApartmentRent.service.ListingsService;
+import com.aprent.ApartmentRent.service.S3Service;
 import com.aprent.ApartmentRent.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,9 +16,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.multipart.MultipartFile;
 
+
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,6 +29,7 @@ import java.util.stream.Collectors;
 public class MainController {
 
     private final UserRepository2 userRepository;
+
 
     public MainController(UserRepository2 userRepository, BookingRepository bookingRepository) {
         this.userRepository = userRepository;
@@ -101,12 +106,27 @@ public class MainController {
         return "add-listings";
     }
 
+
+    public String generateFileKey(Long listingId, String originalFilename) {
+        String fileExtension = "";
+        int i = originalFilename.lastIndexOf('.');
+        if (i > 0) {
+            fileExtension = originalFilename.substring(i);
+        }
+        String filenameWithoutExtension = originalFilename.substring(0, i);
+        return "listings/" + listingId + "/" + filenameWithoutExtension + "-" + System.currentTimeMillis() + fileExtension;
+    }
+
+
+    @Autowired
+    private S3Service s3Service;
     @PostMapping("/listings/add-listings")
     public String addListing(@RequestParam("title") String title,
                              @RequestParam("description") String description,
                              @RequestParam("location") String location,
                              @RequestParam("price") int price,
-                             Authentication authentication){
+                             @RequestParam("files") MultipartFile[] files,
+                             Authentication authentication) throws IOException {
         Listings listing = new Listings();
         listing.setTitle(title);
         listing.setDescription(description);
@@ -116,17 +136,39 @@ public class MainController {
 
         Users user = userRepository.findByEmail(authentication.getName());
         listing.setUser(user);
+        listingsService.save(listing);
+
+        for (MultipartFile file : files) {
+            if (!file.isEmpty()) {
+                String fileKey = s3Service.generateFileKey(listing.getId(), file.getOriginalFilename());
+                s3Service.uploadFile(fileKey, file);
+                String fileUrl = "https://chicken-bucket.hb.kz-ast.vkcs.cloud/" + fileKey;
+
+                ListingImage image = new ListingImage();
+                image.setImageUrl(fileUrl);
+                image.setListing(listing);
+                listing.getImages().add(image); // Добавляем изображение в список
+            }
+        }
 
         listingsService.save(listing);
 
         return "redirect:/";
     }
 
+
     @GetMapping("/house-details")
     public String showHouseDetails(@RequestParam("id") Long id, Model model) {
-        Optional<Listings> listing = listingsService.findById(id);
-        model.addAttribute("listing", listing);
-        return "/house-details";
+        Optional<Listings> listingOptional = listingsService.findById(id);
+        if (listingOptional.isPresent()) {
+            model.addAttribute("listing", listingOptional.get());
+        } else {
+            // Обработка случая, когда объявление не найдено.
+            // Например, перенаправление на другую страницу.
+            model.addAttribute("errorMessage", "Listing not found");
+            return "home"; // Перенаправление на страницу ошибки
+        }
+        return "house-details"; // Ваш шаблон Thymeleaf для деталей дома
     }
 
 

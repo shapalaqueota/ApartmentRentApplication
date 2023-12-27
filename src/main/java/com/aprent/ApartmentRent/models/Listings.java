@@ -2,6 +2,7 @@ package com.aprent.ApartmentRent.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,6 +31,38 @@ public class Listings {
     @JoinColumn
     private Users users;
 
+    @Column
+    private String imageUrl; // Поле для хранения URL изображения
+
+
+    @OneToMany(mappedBy = "listing", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ListingImage> images = new ArrayList<>();
+
+    // Геттеры и сеттеры
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
+    public List<ListingImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ListingImage> images) {
+        this.images = images;
+    }
 
     public List<String> getPossibleLocations() {
         return LOCATION_LIST;
