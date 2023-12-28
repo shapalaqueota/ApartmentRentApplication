@@ -11,6 +11,9 @@ import com.aprent.ApartmentRent.service.ListingsService;
 import com.aprent.ApartmentRent.service.S3Service;
 import com.aprent.ApartmentRent.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,10 +32,10 @@ import java.util.stream.Collectors;
 public class MainController {
 
 
-    @GetMapping("/")
-    public String index(){
-        return "index";
-    }
+//    @GetMapping("/")
+//    public String index(){
+//        return "index";
+//    }
 
     private final UserRepository2 userRepository;
 
@@ -43,10 +46,9 @@ public class MainController {
         this.bookingRepository = bookingRepository;
     }
 
-
     @Autowired
     private ListingsService listingsService;
-    @GetMapping("/home")
+    @GetMapping("/")
     public String home(Model model, Authentication authentication) {
         List<Listings> listings = listingsService.findAll()
                 .stream()
