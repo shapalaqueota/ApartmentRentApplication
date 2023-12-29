@@ -3,63 +3,76 @@
 <head>
     <title>Registration</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Bootstrap Icons CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-
+    <link rel="stylesheet" href="style.css">
 
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');
 
-    body {
-      font-family: 'Dongle', sans-serif;
-    }
+        body {
+            font-family: 'Dongle', sans-serif;
+        }
 
+        .registration-container {
+            max-width: 400px; /* Определяет максимальную ширину контейнера формы */
+            margin: 50px auto; /* Центрирует контейнер на странице */
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Добавляет тень для контейнера */
+            border-radius: 10px;
+        }
+
+        .form-control {
+            max-width: 300px; /* Ограничивает максимальную ширину полей ввода */
+            margin: auto; /* Центрирует поля ввода внутри контейнера */
+        }
 
     </style>
-
 </head>
 <body>
-
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg navbar-light bg-light"
+     style="height: 70px;"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <h1 class="rentify-text">Renti<span class="text-primary">fy</span></h1>
-        </div>
+        <a class="navbar-brand" th:href="@{'/'}">
+            <img src="logo.svg" alt="logo" class="logo-size ml-2">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
     </div>
 </nav>
 
-<div class="container">
-<h1>Registration on Rentify</h1>
+<div class="container registration-container">
+    <h1>Registration on Rentify</h1>
 
-<form action="/register" method="post">
+    <form action="/register" method="post">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username">
+        </div>
 
-    <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username">
-    </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else</div>
+        </div>
 
-    <div class="mb-3">
-        <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else</div>
-    </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password">
+        </div>
 
-    <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password">
-    </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
 
-    <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 
-    <button type="submit" value="Register" class="btn btn-primary">Submit</button>
-</form>
-
-
-<p>Already have an account? <a href="/login">Log in</a></p>
+    <p>Already have an account? <a href="/login">Log in</a></p>
 </div>
 </body>
 </html>
-

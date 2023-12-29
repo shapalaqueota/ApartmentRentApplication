@@ -2,10 +2,22 @@
 
 .logo-size {
     height: 20px;
-    weight: 20px;
 }
 
 body {
     font-family: Dongle;
     font-size: x-large;
+}
+
+i{
+height: fit-content;
+}
+
+.card-text{
+    margin-top: -20px;
+}
+
+
+.rounded-card {
+     border-radius: 10px;
 }

@@ -26,7 +26,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) -> requests
-                                .requestMatchers("/**", "/home/**","/register/**", "/my-ads")
+                                .requestMatchers("/**", "/home/**","/register/**")
                         .permitAll()
                         .anyRequest()
                 )
@@ -36,7 +36,7 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/", true)
                 )
                 .logout((logout) -> logout.permitAll()
-                        .logoutSuccessUrl("/login"))
+                        .logoutSuccessUrl("/"))
                 .authenticationProvider(authenticationProvider())
                 .csrf().disable();
         return http.build();
